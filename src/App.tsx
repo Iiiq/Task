@@ -43,7 +43,7 @@ class ProgressBar extends Component<Props,object> {
     };
     
     const pVstyle :  CSS.Properties =  {
-      width:  this.props.value/this.props.max * 100+'%',
+      width:  (this.props.value-(this.props.min||0))/(this.props.max-(this.props.min||0)) * 100+'%',
       height: this.props.height?.toString(),
       backgroundColor : 'green',
       textAlign : 'center'
@@ -87,7 +87,7 @@ export class ProgressApp extends Component<Props, Statement> {
   }
 
   tick() {
-    if(this.state.value<this.props.max){
+    if(this.state.value<this.state.max){
       this.setState({value: this.state.value+1});
     }
     else{
@@ -110,7 +110,7 @@ export class ProgressApp extends Component<Props, Statement> {
     if(!this.state.isTimerOn){
       this.setState({interval: setInterval(() => this.tick(), 500),isTimerOn : true});
     }
-    this.setState({value: this.props.min || 0});
+    this.setState({value: (this.state.min || 0)});
   }
 
   propChange(event : ChangeEvent<HTMLInputElement>){
